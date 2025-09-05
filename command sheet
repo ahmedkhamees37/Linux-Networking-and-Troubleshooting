@@ -50,3 +50,5 @@ ip route add throw 10.1.1.1/32               # Block route (Net unreachable)
 # Custom Metrics / Weights
 ip route add 10.10.10.0/24 via 10.1.1.1 metric 5   # Add route with custom metric
 ip route add default nexthop via 10.10.10.1 weight 1 nexthop dev ens33 weight 10  # Default route with custom weights
+
+```

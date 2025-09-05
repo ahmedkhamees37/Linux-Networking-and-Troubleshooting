@@ -1,0 +1,52 @@
+# IP Command Cheat Sheet for Addressing and Routing
+
+## 📌 Addressing
+```bash
+ip address show                              # Show all IP addresses
+ip address show eth0                         # Show IP addresses of eth0 
+ip address show up                           # Show IPs of those interfaces that are up
+ip address show dynamic|permanent            # Show dynamic or static
+ip address add 10.0.1.20/24 dev eth0         # Add a new IP 10.0.1.20 to eth0
+ip address add 10.0.1.20/24 dev eth0 label eth0:Interface1   # Add IP and label it
+ip address delete 10.0.1.20/24 dev eth0      # Delete the address from interface
+ip address flush dev eth0                    # Delete all IPs from an interface
+
+
+
+
+## 📌 Routing
+
+ip route [show]                              # Show the routing table (IPv4 + IPv6)
+ip -6 route                                  # Show only IPv6 routes
+ip -4 route                                  # Show only IPv4 routes
+ip route show root 10.0.1.10/24              # Show more specific routes (supernet)
+ip route show match 10.0.1.10/24             # Show routes to this and larger nets
+ip route show exact 10.0.1.10/24             # Show routes to EXACT network only
+ip route get 10.0.1.10/24                    # Simulate resolving of a route in real time
+
+# Add/Delete Routes
+ip route add 10.0.1.10/24 via 10.13.77.1     # Add new route via next hop
+ip route add 10.0.1.10/24 dev eth0           # Add new route via interface
+ip route delete 10.0.1.10/24 via 10.13.77.1  # Delete specific route
+ip route delete 10.0.1.10/24                 # Delete specific route
+
+# Modify Routes
+ip route change 10.0.1.10/24 dev eth0        # Change params of existing route
+ip route replace 10.0.1.10/24 dev eth0       # Replace if exists, add if not
+
+# Default Routes
+ip route add default via 10.10.10.1          # Add default route via next hop
+ip route add default dev eth0                # Add default route via interface
+ip route add 0.0.0.0/0 dev eth0              # Add default route via interface
+ip route delete default dev eth0             # Delete default route
+ip -6 route add default via 2001:db8         # Add IPv6 default route
+
+# Special Routes
+ip route add blackhole 10.0.5.10             # Blackhole a route
+ip route add unreachable 10.10.10.0/24       # Block route (Host unreachable)
+ip route add prohibit 10.1.1.1/32            # Block route (ICMP administratively prohibited)
+ip route add throw 10.1.1.1/32               # Block route (Net unreachable)
+
+# Custom Metrics / Weights
+ip route add 10.10.10.0/24 via 10.1.1.1 metric 5   # Add route with custom metric
+ip route add default nexthop via 10.10.10.1 weight 1 nexthop dev ens33 weight 10  # Default route with custom weights
